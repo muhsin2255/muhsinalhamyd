@@ -40,10 +40,15 @@ jobs:
         echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
         echo "PATH=$HOME/android-sdk/cmdline-tools/tools/bin:$HOME/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
 
-    - name: Install Android SDK components
+    - name: Install Android SDK + Build Tools + AIDL
       run: |
         yes | sdkmanager --sdk_root=$HOME/android-sdk --licenses
-        sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+        sdkmanager --sdk_root=$HOME/android-sdk \
+          "platform-tools" \
+          "platforms;android-33" \
+          "build-tools;33.0.2" \
+          "emulator" \
+          "cmdline-tools;latest"
 
     - name: Install buildozer
       run: |
