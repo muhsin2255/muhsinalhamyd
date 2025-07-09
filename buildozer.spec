@@ -1,34 +1,26 @@
 [app]
-title = MilkManager
-package.name = milkmanager
+title = MilkApp
+package.name = milkapp
 package.domain = org.muhsin
 
 source.dir = .
-source.include_exts = py,png,jpg,kv,atlas,json,ttf
+source.include_exts = py,png,jpg,kv,atlas,ttf
 
-requirements = python3,kivy,arabic-reshaper,python-bidi,pycryptodome,requests
+requirements = python3,kivy,arabic-reshaper,python-bidi
 
 orientation = portrait
 fullscreen = 1
 
-android.permissions = INTERNET
-
-android.minapi = 21
+android.api = 33
 android.sdk = 33
 android.ndk = 25b
-android.api = 33
+android.minapi = 21
 android.build_tools_version = 33.0.2
-android.compile_sdk = 33
 
-android.gradle_dependencies = com.android.support:appcompat-v7:28.0.0
-android.extra_presplash_color = #FFFFFF
-android.allow_backup = True
+android.permissions = INTERNET
 android.enable_androidx = True
-android.logcat_filters = *:S python:D
-android.private_storage = True
+android.allow_backup = True
 
-version = 1.0
-
-[buildozer]
-log_level = 2
-warn_on_root = 1
+# لتشغيل الخط العربي من fonts
+presplash.filename = 
+icon.filename =
