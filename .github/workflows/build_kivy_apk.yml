@@ -32,10 +32,10 @@ jobs:
         pip install --upgrade pip
         pip install buildozer cython
 
-    - name: Initialize Buildozer (download dependencies)
+    - name: Build the APK
       run: |
-        buildozer init || true  # إنشاء ملف buildozer.spec إذا مش موجود
-        buildozer android clean
+        ls -la  # عرض الملفات للتأكد من وجود buildozer.spec
+        pwd     # عرض المجلد الحالي
         buildozer android debug
 
     - name: Upload APK
