@@ -25,7 +25,18 @@ jobs:
           build-essential ccache libffi-dev libssl-dev \
           libsqlite3-dev zlib1g-dev libncurses5-dev libncursesw5-dev \
           libreadline-dev libgdbm-dev libbz2-dev libexpat1-dev \
-          liblzma-dev tk-dev python3-pip git zip unzip openjdk-17-jdk
+          liblzma-dev tk-dev python3-pip git zip unzip openjdk-17-jdk curl
+
+    - name: Install Android SDK + Build Tools
+      run: |
+        mkdir -p "$HOME/android-sdk/cmdline-tools"
+        cd "$HOME/android-sdk/cmdline-tools"
+        curl -O https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
+        unzip commandlinetools-linux-*.zip -d tools
+        export ANDROID_HOME=$HOME/android-sdk
+        export PATH=$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH
+        yes | sdkmanager --licenses
+        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
     - name: Install buildozer
       run: |
@@ -34,8 +45,8 @@ jobs:
 
     - name: Build the APK
       run: |
-        ls -la  # عرض الملفات للتأكد من وجود buildozer.spec
-        pwd     # عرض المجلد الحالي
+        export ANDROID_HOME=$HOME/android-sdk
+        export PATH=$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH
         buildozer android debug
 
     - name: Upload APK
