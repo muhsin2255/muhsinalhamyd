@@ -1,35 +1,50 @@
-name: Build APK
+# ملف GitHub Actions لبناء تطبيق Kivy لنظام Android (APK)
+# يقوم هذا الملف بإعداد بيئة البناء وتشغيل Buildozer لإنشاء ملف APK ورفعه كأثر (Artifact).
+name: بناء APK لتطبيق Kivy
 
 on:
-  workflow_dispatch:  # يسمح بتشغيل الأكشن يدوياً
   push:
-    branches: [ main ]
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-android:
+    name: بناء APK للأندرويد
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: إعداد Python 3.9
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
+      - name: تثبيت المتطلبات (Buildozer)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
-          pip install buildozer cython virtualenv
+          sudo apt update
+          sudo apt install -y git zip unzip python3-pip autoconf libtool pkg-config \
+            zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev automake
+          # تثبيت Cython و virtualenv و Buildozer عبر pip
+          sudo pip3 install --upgrade Cython==0.29.33 virtualenv buildozer
 
-      - name: Run Buildozer
+      - name: بناء APK للأندرويد باستخدام Buildozer
         run: |
-          buildozer -v android debug
-          ls -lh bin/
+          # إعداد مسار Java 17 (ضبط JAVA_HOME)
+          export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
+          sudo update-java-alternatives --set ${JAVA_HOME}
+          export PATH=$JAVA_HOME/bin:$PATH
+          # تشغيل Buildozer مع قبول جميع التراخيص تلقائيًا (لتفادي مشاكل Aidl و build-tools)
+          yes | buildozer -v android debug
 
-      - name: Upload APK
+      - name: رفع ملف APK الناتج
         uses: actions/upload-artifact@v4
         with:
           name: MilkAccountantAPK
           path: bin/*.apk
-          retention-days: 7
