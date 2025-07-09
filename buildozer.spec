@@ -1,33 +1,34 @@
 [app]
-title = MilkManager
-package.name = milkmanager
-package.domain = org.kivy
-
+title = نظام إدارة الكميات
+package.name = milkaccountant
+package.domain = com.muhsin
+version = 1.0.0
 source.dir = .
-source.include_exts = py,png,jpg,kv,atlas,json,ttf
+source.main = main.py
 
-requirements = python3,kivy,arabic-reshaper,python-bidi,pycryptodome,requests
+requirements = 
+    python3,
+    kivy==2.3.0,
+    arabic-reshaper,
+    python-bidi,
+    pycryptodomex,
+    requests,
+    certifi
+
+android.api = 33
+android.minapi = 21
+android.ndk = 25b
+android.sdk = 34
+android.arch = armeabi-v7a
+
+android.permissions = 
+    INTERNET,
+    WRITE_EXTERNAL_STORAGE,
+    READ_EXTERNAL_STORAGE
 
 orientation = portrait
-fullscreen = 1
-
-android.permissions = INTERNET
-
-android.minapi = 21
-android.sdk = 33
-android.ndk = 25b
-android.build_tools_version = 33.0.2
-android.compile_sdk = 33
-
-android.gradle_dependencies = com.android.support:appcompat-v7:28.0.0
-android.extra_presplash_color = #FFFFFF
-android.allow_backup = True
-android.enable_androidx = True
-android.private_storage = True
-android.logcat_filters = *:S python:D
-
-version = 1.0
+fullscreen = 0
+log_level = 2
 
 [buildozer]
 log_level = 2
-warn_on_root = 1
