@@ -25,18 +25,25 @@ jobs:
           build-essential ccache libffi-dev libssl-dev \
           libsqlite3-dev zlib1g-dev libncurses5-dev libncursesw5-dev \
           libreadline-dev libgdbm-dev libbz2-dev libexpat1-dev \
-          liblzma-dev tk-dev python3-pip git zip unzip openjdk-17-jdk curl
+          liblzma-dev tk-dev python3-pip git zip unzip openjdk-17-jdk wget
 
-    - name: Install Android SDK + Build Tools
+    - name: Download Android Command Line Tools
       run: |
-        mkdir -p "$HOME/android-sdk/cmdline-tools"
-        cd "$HOME/android-sdk/cmdline-tools"
-        curl -O https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
-        unzip commandlinetools-linux-*.zip -d tools
-        export ANDROID_HOME=$HOME/android-sdk
-        export PATH=$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH
-        yes | sdkmanager --licenses
-        sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+        mkdir -p $HOME/android-sdk/cmdline-tools
+        cd $HOME/android-sdk/cmdline-tools
+        wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O tools.zip
+        unzip tools.zip
+        mv cmdline-tools tools
+
+    - name: Set environment variables
+      run: |
+        echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+        echo "PATH=$HOME/android-sdk/cmdline-tools/tools/bin:$HOME/android-sdk/platform-tools:$PATH" >> $GITHUB_ENV
+
+    - name: Install Android SDK components
+      run: |
+        yes | sdkmanager --sdk_root=$HOME/android-sdk --licenses
+        sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
     - name: Install buildozer
       run: |
@@ -45,8 +52,6 @@ jobs:
 
     - name: Build the APK
       run: |
-        export ANDROID_HOME=$HOME/android-sdk
-        export PATH=$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH
         buildozer android debug
 
     - name: Upload APK
