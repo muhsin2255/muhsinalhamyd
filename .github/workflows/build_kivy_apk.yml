@@ -1,26 +1,35 @@
 name: Build APK
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # لتشغيل الأكشن يدويًا
   push:
-    branches: [ main ]
+    branches: [ main ]  # عند الدفع إلى الفرع الرئيسي
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      image: kivy/buildozer:latest  # استخدم الصورة الصحيحة من Docker Hub
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Build APK using Dockerized Buildozer
+    - name: Prepare Build Environment
       run: |
-        docker run --rm -v ${{ github.workspace }}:/home/user/app \
-          -w /home/user/app \
-          kivy/buildozer:stable buildozer android debug
+        apt-get update
+        apt-get install -y zip unzip libffi-dev libssl-dev
+        pip install --upgrade pip
+        pip install cython==0.29.36
+
+    - name: Build APK using Buildozer
+      run: |
+        buildozer android debug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: MilkAccountantAPK
         path: bin/*.apk
+        retention-days: 7
