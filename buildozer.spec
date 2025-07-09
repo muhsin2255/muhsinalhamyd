@@ -13,7 +13,6 @@ orientation = portrait
 fullscreen = 1
 
 android.permissions = INTERNET
-
 android.minapi = 21
 android.sdk = 33
 android.ndk = 25b
@@ -28,6 +27,8 @@ android.extra_presplash_color = #FFFFFF
 android.allow_backup = True
 android.enable_androidx = True
 android.logcat_filters = *:S python:D
+
+version = 1.0
 
 [buildozer]
 
