@@ -1,5 +1,0 @@
-kivy
-arabic-reshaper
-python-bidi
-pycryptodome
-requests
