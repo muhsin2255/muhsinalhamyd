@@ -9,35 +9,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: Set up Python 3.9
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
 
-    - name: Install dependencies
+    - name: Install dependencies (Buildozer & Android)
       run: |
         sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
+        sudo apt-get install -y zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
         pip install buildozer cython virtualenv
 
-    - name: Install Android SDK and build tools manually
+    - name: Install Android SDK (including build-tools)
       run: |
-        mkdir -p ~/.android/sdk/cmdline-tools
-        cd ~/.android/sdk/cmdline-tools
-        wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-        unzip cmdline-tools.zip
-        mv cmdline-tools latest
-        export ANDROID_SDK_ROOT=$HOME/.android/sdk
-        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
+        mkdir -p ~/.android
+        echo "count=0" > ~/.android/repositories.cfg
         yes | sdkmanager --licenses
         sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
-    - name: Run Buildozer
+    - name: Build APK using Buildozer
       run: |
-        export ANDROID_SDK_ROOT=$HOME/.android/sdk
-        export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
         buildozer -v android debug
         ls -lh bin/
 
