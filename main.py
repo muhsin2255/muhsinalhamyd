@@ -198,7 +198,7 @@ class ModernTextInput(TextInput):
         anim.start(self)
         self.update_canvas()
 
-class GradientLabel(Label):
+class GradientLabel(Label, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'):
     """نص بتدرج لوني"""
     gradient = ListProperty(GRADIENT_BLUE)
     font_name = StringProperty("ArabicFont")
@@ -668,30 +668,26 @@ class ActivationScreen(BoxLayout):
         
         # شريط الاتصال العلوي
         contact_bar = BoxLayout(size_hint_y=None, height=dp(40), padding=dp(5))
-        contact_bar.add_widget(Label(
-            text="+963930458096",
-            font_size=dp(16),
+        contact_bar.add_widget(Label(text="+963930458096",
+            font_size=dp(16, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             size_hint_x=0.5,
             halign="left"
         ))
-        contact_bar.add_widget(Label(
-            text="t.me/ssaanmm",
-            font_size=dp(16),
+        contact_bar.add_widget(Label(text="t.me/ssaanmm",
+            font_size=dp(16, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             size_hint_x=0.5,
             halign="right"
         ))
         self.add_widget(contact_bar)
         
-        self.add_widget(GradientLabel(
-            text=reshape("نظام إدارة الكميات"),
+        self.add_widget(GradientLabel(text=reshape("نظام إدارة الكميات", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(30),
             size_hint_y=None,
             height=dp(60),
             gradient=GRADIENT_BLUE
         ))
         
-        self.status_label = GradientLabel(
-            text=reshape("الحالة: جاري التحقق..."),
+        self.status_label = GradientLabel(text=reshape("الحالة: جاري التحقق...", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(24),
             color=(0.8, 0.5, 0, 1),
             size_hint_y=None,
@@ -782,14 +778,12 @@ class ActivationScreen(BoxLayout):
             
     def show_progress_popup(self):
         content = BoxLayout(orientation='vertical', spacing=dp(20), padding=dp(20))
-        content.add_widget(Label(
-            text=reshape("جاري انتظار رد المسؤول..."),
+        content.add_widget(Label(text=reshape("جاري انتظار رد المسؤول...", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(20)
         ))
         
-        self.progress_label = Label(
-            text=reshape("تم إرسال طلب التفعيل إلى المسؤول"),
+        self.progress_label = Label(text=reshape("تم إرسال طلب التفعيل إلى المسؤول", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(18)
         )
@@ -887,8 +881,7 @@ class MilkRecordsViewer(BoxLayout):
         self.add_widget(btn_back)
         
         # عنوان الشاشة
-        self.add_widget(GradientLabel(
-            text=reshape("السجلات المحفوظة"),
+        self.add_widget(GradientLabel(text=reshape("السجلات المحفوظة", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(24),
             size_hint_y=None,
             height=dp(60),
@@ -934,8 +927,7 @@ class MilkRecordsViewer(BoxLayout):
         records_dir = get_milk_records_path()
         if not os.path.exists(records_dir):
             os.makedirs(records_dir, exist_ok=True)
-            self.records_layout.add_widget(Label(
-                text=reshape("لا توجد سجلات محفوظة بعد"),
+            self.records_layout.add_widget(Label(text=reshape("لا توجد سجلات محفوظة بعد", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(20),
                 size_hint_y=None,
@@ -951,8 +943,7 @@ class MilkRecordsViewer(BoxLayout):
         )
         
         if not files:
-            self.records_layout.add_widget(Label(
-                text=reshape("لا توجد سجلات محفوظة بعد"),
+            self.records_layout.add_widget(Label(text=reshape("لا توجد سجلات محفوظة بعد", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(20),
                 size_hint_y=None,
@@ -1004,8 +995,7 @@ class MilkRecordsViewer(BoxLayout):
             self.add_widget(btn_back)
             
             # عنوان الملف
-            self.add_widget(GradientLabel(
-                text=reshape(f"سجل: {filename}"),
+            self.add_widget(GradientLabel(text=reshape(f"سجل: {filename}", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_size=dp(22),
                 size_hint_y=None,
                 height=dp(50),
@@ -1014,8 +1004,7 @@ class MilkRecordsViewer(BoxLayout):
             
             # محتوى الملف
             scroll = ModernScrollView()
-            content_label = Label(
-                text=reshape(content),
+            content_label = Label(text=reshape(content, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(18),
                 size_hint_y=None,
@@ -1034,8 +1023,7 @@ class MilkRecordsViewer(BoxLayout):
 
     def confirm_delete_file(self, filename):
         content = BoxLayout(orientation='vertical', spacing=dp(10), padding=dp(20))
-        content.add_widget(Label(
-            text=reshape(f"هل أنت متأكد من حذف الملف:\n{filename}؟"),
+        content.add_widget(Label(text=reshape(f"هل أنت متأكد من حذف الملف:\n{filename}؟", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(20),
             color=(0, 0, 0, 1)  # لون النص أسود ليكون واضحًا
@@ -1077,8 +1065,7 @@ class MilkRecordsViewer(BoxLayout):
 
     def confirm_delete_all(self, instance):
         content = BoxLayout(orientation='vertical', spacing=dp(10), padding=dp(20))
-        content.add_widget(Label(
-            text=reshape("هل أنت متأكد من حذف جميع السجلات؟"),
+        content.add_widget(Label(text=reshape("هل أنت متأكد من حذف جميع السجلات؟", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(20),
             color=(0, 0, 0, 1)  # لون النص أسود ليكون واضحًا
@@ -1160,15 +1147,13 @@ class MainMenu(BoxLayout):
         
         # شريط الاتصال العلوي
         contact_bar = BoxLayout(size_hint_y=None, height=dp(40), padding=dp(5))
-        contact_bar.add_widget(Label(
-            text="+963930458096",
-            font_size=dp(16),
+        contact_bar.add_widget(Label(text="+963930458096",
+            font_size=dp(16, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             size_hint_x=0.5,
             halign="left"
         ))
-        contact_bar.add_widget(Label(
-            text="t.me/ssaanmm",
-            font_size=dp(16),
+        contact_bar.add_widget(Label(text="t.me/ssaanmm",
+            font_size=dp(16, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             size_hint_x=0.5,
             halign="right"
         ))
@@ -1181,8 +1166,7 @@ class MainMenu(BoxLayout):
             if info:
                 remaining_days = info['remaining_days']
                 if remaining_days <= 5:
-                    warning_label = Label(
-                        text=reshape(f"⚠️ انتبه! لقد بقي {remaining_days} أيام لانتهاء التفعيل"),
+                    warning_label = Label(text=reshape(f"⚠️ انتبه! لقد بقي {remaining_days} أيام لانتهاء التفعيل", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                         font_name="ArabicFont",
                         font_size=dp(16),
                         color=(1, 0, 0, 1),
@@ -1191,8 +1175,7 @@ class MainMenu(BoxLayout):
                     )
                     self.add_widget(warning_label)
                 else:
-                    days_label = Label(
-                        text=reshape(f"الأيام المتبقية: {remaining_days} يوم"),
+                    days_label = Label(text=reshape(f"الأيام المتبقية: {remaining_days} يوم", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                         font_name="ArabicFont",
                         font_size=dp(16),
                         color=(0, 0.6, 0, 1),
@@ -1202,8 +1185,7 @@ class MainMenu(BoxLayout):
                     self.add_widget(days_label)
         
         # عنوان التطبيق
-        self.add_widget(GradientLabel(
-            text=reshape("نظام إدارة الكميات"),
+        self.add_widget(GradientLabel(text=reshape("نظام إدارة الكميات", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(30),
             size_hint_y=None,
             height=dp(60),
@@ -1266,9 +1248,8 @@ class MilkAppLayout(BoxLayout):
         super().__init__(orientation='vertical', spacing=dp(10), padding=dp(12), **kwargs)
         self.names, self.materials, self.name_materials, self.material_types, self.material_weights = load_code_data()
         if not self.names:
-            self.add_widget(Label(
-                text=reshape("""لا يوجد أسماء زبائن للمعالجة.
-الرجاء إضافتهم أولاً."""),
+            self.add_widget(Label(text=reshape("""لا يوجد أسماء زبائن للمعالجة.
+الرجاء إضافتهم أولاً.""", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(22),
                 color=(1, 0, 0, 1),
@@ -1302,8 +1283,7 @@ class MilkAppLayout(BoxLayout):
         self.inputs = {}
 
         # إضافة اسم الزبون الحالي
-        name_label = GradientLabel(
-            text=reshape(self.names[self.index]),
+        name_label = GradientLabel(text=reshape(self.names[self.index], font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(18),
             size_hint_y=None,
             height=dp(30),
@@ -1318,8 +1298,7 @@ class MilkAppLayout(BoxLayout):
         mat_list = self.name_materials[self.names[self.index]]
 
         for i, mat in enumerate(mat_list):
-            fields.add_widget(Label(
-                text=reshape(mat),
+            fields.add_widget(Label(text=reshape(mat, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(21),
                 size_hint_y=None,
@@ -1408,8 +1387,7 @@ class MilkAppLayout(BoxLayout):
             box = BoxLayout(orientation='vertical', padding=dp(10), spacing=dp(6), size_hint_y=None)
             box.bind(minimum_height=box.setter('height'))
 
-            box.add_widget(GradientLabel(
-                text=reshape(name),
+            box.add_widget(GradientLabel(text=reshape(name, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_size=dp(20),
                 size_hint_y=None,
                 height=dp(30),
@@ -1433,8 +1411,7 @@ class MilkAppLayout(BoxLayout):
                 ))
             layout.add_widget(box)
 
-        layout.add_widget(GradientLabel(
-            text=reshape("المجاميع النهائية:"),
+        layout.add_widget(GradientLabel(text=reshape("المجاميع النهائية:", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(20),
             size_hint_y=None,
             height=dp(35),
@@ -1507,8 +1484,7 @@ class MilkAppLayout(BoxLayout):
             f.write("\n".join(output))
 
         self.clear_widgets()
-        self.add_widget(Label(
-            text=reshape(f"تم حفظ الملف:\n{filename}"),
+        self.add_widget(Label(text=reshape(f"تم حفظ الملف:\n{filename}", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(20),
             color=(0, 0, 0, 1)
@@ -1534,8 +1510,7 @@ class NameEditorLayout(BoxLayout):
 
     def main_menu(self):
         self.clear_root()
-        self.add_widget(GradientLabel(
-            text=reshape("قائمة الخيارات"),
+        self.add_widget(GradientLabel(text=reshape("قائمة الخيارات", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(22),
             size_hint_y=None,
             height=dp(40),
@@ -1569,8 +1544,7 @@ class NameEditorLayout(BoxLayout):
 
     def add_new_name(self):
         self.clear_root()
-        self.add_widget(Label(
-            text=reshape("أدخل اسم الزبون"),
+        self.add_widget(Label(text=reshape("أدخل اسم الزبون", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(20),
             size_hint_y=None,
@@ -1613,8 +1587,7 @@ class NameEditorLayout(BoxLayout):
 
     def modify_existing(self):
         self.clear_root()
-        self.add_widget(Label(
-            text=reshape("اختر اسماً للتعديل"),
+        self.add_widget(Label(text=reshape("اختر اسماً للتعديل", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(20),
             size_hint_y=None,
@@ -1654,8 +1627,7 @@ class NameEditorLayout(BoxLayout):
 
     def delete_name(self):
         self.clear_root()
-        self.add_widget(Label(
-            text=reshape("اختر اسماً للحذف"),
+        self.add_widget(Label(text=reshape("اختر اسماً للحذف", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(20),
             size_hint_y=None,
@@ -1674,8 +1646,7 @@ class NameEditorLayout(BoxLayout):
         
         for name in self.names:
             row = BoxLayout(size_hint_y=None, height=dp(50), spacing=dp(10))
-            row.add_widget(Label(
-                text=reshape(name),
+            row.add_widget(Label(text=reshape(name, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(18),
                 size_hint_x=0.7,
@@ -1706,8 +1677,7 @@ class NameEditorLayout(BoxLayout):
 
     def confirm_delete(self, name):
         content = BoxLayout(orientation='vertical', padding=dp(20), spacing=dp(20))
-        content.add_widget(Label(
-            text=reshape(f"هل أنت متأكد من حذف '{name}'؟"),
+        content.add_widget(Label(text=reshape(f"هل أنت متأكد من حذف '{name}'؟", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(22),
             color=(0, 0, 0, 1)  # لون النص أسود ليكون واضحًا
@@ -1750,16 +1720,14 @@ class NameEditorLayout(BoxLayout):
 
     def manage_materials(self):
         self.clear_root()
-        self.add_widget(GradientLabel(
-            text=reshape("إدارة المواد"),
+        self.add_widget(GradientLabel(text=reshape("إدارة المواد", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(22),
             size_hint_y=None,
             height=dp(40),
             gradient=GRADIENT_BLUE
         ))
         
-        self.add_widget(Label(
-            text=reshape("إضافة مادة جديدة:"),
+        self.add_widget(Label(text=reshape("إضافة مادة جديدة:", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(18),
             size_hint_y=None,
@@ -1784,8 +1752,7 @@ class NameEditorLayout(BoxLayout):
         add_btn.bind(on_press=self.add_new_material)
         self.add_widget(add_btn)
         
-        self.add_widget(Label(
-            text=reshape("حذف مادة موجودة:"),
+        self.add_widget(Label(text=reshape("حذف مادة موجودة:", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(18),
             size_hint_y=None,
@@ -1804,8 +1771,7 @@ class NameEditorLayout(BoxLayout):
         
         for material in self.materials:
             row = BoxLayout(size_hint_y=None, height=dp(50), spacing=dp(10))
-            row.add_widget(Label(
-                text=reshape(material),
+            row.add_widget(Label(text=reshape(material, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(18),
                 size_hint_x=0.7,
@@ -1838,8 +1804,7 @@ class NameEditorLayout(BoxLayout):
         new_material = self.new_material_input.text.strip()
         if new_material and new_material not in self.materials:
             content = BoxLayout(orientation='vertical', spacing=dp(20), padding=dp(20))
-            content.add_widget(Label(
-                text=reshape(f"اختر نوع المادة '{new_material}'"),
+            content.add_widget(Label(text=reshape(f"اختر نوع المادة '{new_material}'", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(22),
                 color=(0, 0, 0, 1)  # لون النص أسود ليكون واضحًا
@@ -1882,8 +1847,7 @@ class NameEditorLayout(BoxLayout):
     def get_material_weight(self, material, prev_popup):
         prev_popup.dismiss()
         content = BoxLayout(orientation='vertical', spacing=dp(20), padding=dp(20))
-        content.add_widget(Label(
-            text=reshape(f"أدخل وزن الوحدة للمادة '{material}' (كجم)"),
+        content.add_widget(Label(text=reshape(f"أدخل وزن الوحدة للمادة '{material}' (كجم, font_name='fonts/ArabicFont.ttf', halign='right', valign='top')"),
             font_name="ArabicFont",
             font_size=dp(22),
             color=(0, 0, 0, 1)  # لون النص أسود ليكون واضحًا
@@ -1924,8 +1888,7 @@ class NameEditorLayout(BoxLayout):
 
     def confirm_delete_material(self, material):
         content = BoxLayout(orientation='vertical', padding=dp(20), spacing=dp(20))
-        content.add_widget(Label(
-            text=reshape(f"هل أنت متأكد من حذف '{material}'؟"),
+        content.add_widget(Label(text=reshape(f"هل أنت متأكد من حذف '{material}'؟", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_name="ArabicFont",
             font_size=dp(22),
             color=(0, 0, 0, 1)  # لون النص أسود ليكون واضحًا
@@ -1970,8 +1933,7 @@ class NameEditorLayout(BoxLayout):
 
     def edit_materials(self, name):
         self.clear_root()
-        self.add_widget(GradientLabel(
-            text=reshape(name),
+        self.add_widget(GradientLabel(text=reshape(name, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(20),
             size_hint_y=None,
             height=dp(40),
@@ -2020,8 +1982,7 @@ class NameEditorLayout(BoxLayout):
 
     def show_all(self):
         self.clear_root()
-        self.add_widget(GradientLabel(
-            text=reshape("جميع الزبائن والمواد"),
+        self.add_widget(GradientLabel(text=reshape("جميع الزبائن والمواد", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
             font_size=dp(20),
             size_hint_y=None,
             height=dp(40),
@@ -2037,8 +1998,7 @@ class NameEditorLayout(BoxLayout):
         box.bind(minimum_height=box.setter('height'))
 
         for name in self.names:
-            box.add_widget(Label(
-                text=reshape(name),
+            box.add_widget(Label(text=reshape(name, font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                 font_name="ArabicFont",
                 font_size=dp(18),
                 color=(0, 0.2, 0.6, 1),
@@ -2046,8 +2006,7 @@ class NameEditorLayout(BoxLayout):
                 height=dp(30)
             ))
             for mat in self.name_materials.get(name, []):
-                box.add_widget(Label(
-                    text=reshape(f"\u2022 {mat}"),
+                box.add_widget(Label(text=reshape(f"\u2022 {mat}", font_name='fonts/ArabicFont.ttf', halign='right', valign='top'),
                     font_name="ArabicFont",
                     font_size=dp(16),
                     color=(0, 0, 0, 1),
