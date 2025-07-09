@@ -1,34 +1,63 @@
 [app]
-title = نظام إدارة الكميات
-package.name = milkaccountant
-package.domain = com.muhsin
-version = 1.0.0
+
+# الاسم الظاهر للتطبيق
+title = MilkManager
+
+# اسم الحزمة
+package.name = milkmanager
+
+# نطاق الحزمة (يفضل أن يكون نطاق مميز مثل اسم نطاقك بالعكس)
+package.domain = org.muhsin
+
+# المجلد الذي يحتوي الكود
 source.dir = .
-source.main = main.py
 
-requirements = 
-    python3,
-    kivy==2.3.0,
-    arabic-reshaper,
-    python-bidi,
-    pycryptodomex,
-    requests,
-    certifi
+# أنواع الملفات التي يجب تضمينها داخل الـ APK
+source.include_exts = py,png,jpg,kv,atlas,json,ttf
 
-android.api = 33
-android.minapi = 21
-android.ndk = 25b
-android.sdk = 34
-android.arch = armeabi-v7a
+# المكتبات المطلوبة للتطبيق
+requirements = python3,kivy,arabic-reshaper,python-bidi,pycryptodome,requests
 
-android.permissions = 
-    INTERNET,
-    WRITE_EXTERNAL_STORAGE,
-    READ_EXTERNAL_STORAGE
-
+# اتجاه الشاشة
 orientation = portrait
-fullscreen = 0
-log_level = 2
+
+# السماح بتشغيل التطبيق في وضع ملء الشاشة
+fullscreen = 1
+
+# صلاحيات التطبيق (مثلاً الاتصال بالإنترنت)
+android.permissions = INTERNET
+
+# إصدارات SDK المطلوبة
+android.minapi = 21
+android.sdk = 33
+android.ndk = 25b
+android.ndk_path =
+android.sdk_path =
+
+# إعدادات الأدوات والبناء
+android.gradle_dependencies = com.android.support:appcompat-v7:28.0.0
+android.build_tools_version = 33.0.2
+android.compile_sdk = 33
+
+# لون شاشة الإقلاع
+android.extra_presplash_color = #FFFFFF
+
+# تمكين دعم AndroidX
+android.enable_androidx = True
+
+# السماح بالنسخ الاحتياطي
+android.allow_backup = True
+
+# فلترة رسائل السجل
+android.logcat_filters = *:S python:D
+
+# إصدار التطبيق
+version = 1.0
 
 [buildozer]
+
+# مستوى التفاصيل في السجل
 log_level = 2
+
+# السماح بالتشغيل كمستخدم root
+warn_on_root = 1
