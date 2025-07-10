@@ -1,4 +1,4 @@
-name: Build APK Automatically
+name: Build Milk Accountant APK
 
 on:
   push:
@@ -6,12 +6,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-apk:
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
@@ -32,9 +33,10 @@ jobs:
         run: |
           buildozer init
           buildozer -v android debug
-          
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
+
+      - name: Upload APK (Fixed Version)
+        uses: actions/upload-artifact@v4
         with:
-          name: Milk-Accountant-APK
+          name: MilkAccountant-APK
           path: bin/*.apk
+          retention-days: 5
