@@ -23,6 +23,28 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
+      
+      - name: Set up Android SDK
+        run: |
+          # Define SDK root and add it to environment variables for subsequent steps
+          export ANDROID_SDK_ROOT="${{ github.workspace }}/android-sdk"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+
+          # Download and unzip command-line tools
+          wget --quiet --show-progress https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmd-tools.zip
+          mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
+          unzip -q cmd-tools.zip -d $ANDROID_SDK_ROOT/cmdline-tools
+          mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+
+          # Add the SDK tools to the path for this and subsequent steps
+          echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_PATH
+          
+          # Accept licenses
+          yes | sdkmanager --licenses > /dev/null
+          
+          # Install required SDK packages
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" > /dev/null
 
       - name: Install system dependencies
         run: |
@@ -59,12 +81,6 @@ jobs:
           android.archs = arm64-v8a, armeabi-v7a
           android.allow_backup = true
           EOL
-      
-      - name: Pre-accept Android SDK licenses
-        run: |
-          mkdir -p "$ANDROID_HOME/licenses"
-          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license"
-          echo "84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
           
       - name: Build with Buildozer
         run: buildozer -v android debug
