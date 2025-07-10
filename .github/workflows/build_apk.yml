@@ -1,4 +1,4 @@
-name: Build Milk Accountant APK
+name: Shadow Build Protocol
 
 on:
   push:
@@ -6,37 +6,62 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-apk:
+  shadow-build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     steps:
-      - name: Checkout code
+      - name: Checkout (Shadow Mode)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: 'shadow-repo'
 
-      - name: Set up Python 3.9
+      - name: Set up Python 3.9 (Quantum Core)
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+          cache: 'pip'
 
-      - name: Install system dependencies
+      - name: Install System Dependencies (Shadow Forge)
         run: |
           sudo apt-get update -y
           sudo apt-get install -y \
               git python3-dev python3-venv libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
-              libffi-dev libssl-dev zlib1g-dev autoconf automake libtool pkg-config ccache unzip
+              libffi-dev libssl-dev zlib1g-dev autoconf automake libtool pkg-config ccache unzip \
+              libncurses5-dev libxml2-dev libxslt-dev
 
-      - name: Install Buildozer
-        run: pip install buildozer
-
-      - name: Build APK
+      - name: Install Buildozer (Shadow Version)
         run: |
-          buildozer init
-          buildozer -v android debug
+          pip install --upgrade pip wheel setuptools
+          pip install buildozer==1.5.0 cython==0.29.36
 
-      - name: Upload APK (Fixed Version)
+      - name: Prepare Shadow Environment
+        run: |
+          cd shadow-repo
+          if [ -f buildozer.spec ]; then
+            buildozer android clean
+          else
+            buildozer init
+          fi
+
+      - name: Execute Shadow Build
+        run: |
+          cd shadow-repo
+          buildozer -v android debug 2>&1 | tee build.log
+          grep -q "Build completed successfully" build.log
+
+      - name: Upload APK (Quantum Artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: MilkAccountant-APK
-          path: bin/*.apk
-          retention-days: 5
+          name: Shadow-APK
+          path: shadow-repo/bin/*.apk
+          retention-days: 7
+
+      - name: Upload Build Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shadow-Logs
+          path: shadow-repo/build.log
+          retention-days: 3
