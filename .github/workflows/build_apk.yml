@@ -1,0 +1,40 @@
+name: Build APK Automatically
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y \
+              git python3-dev python3-venv libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
+              libffi-dev libssl-dev zlib1g-dev autoconf automake libtool pkg-config ccache unzip
+
+      - name: Install Buildozer
+        run: pip install buildozer
+
+      - name: Build APK
+        run: |
+          buildozer init
+          buildozer -v android debug
+          
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Milk-Accountant-APK
+          path: bin/*.apk
